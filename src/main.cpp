@@ -72,7 +72,7 @@ int main(void)
 
     int termSize = terms.size() - 1;
     for(int i = 0; i < termSize; i++) {
-        std::cout << terms[i].toString() << std::endl;
+        //std::cout << terms[i].toString() << std::endl;
     }
 
     BinarySearchDeluxe search;
@@ -99,22 +99,27 @@ int main(void)
             command = terms[first+pos].toString();
             done = true;
         }
-        if(IsKeyReleased(KEY_UP)) pos--;
-        if(IsKeyReleased(KEY_DOWN)) pos++;
+        if(IsKeyReleased(KEY_UP)){
+            pos--;
+            if(pos > last-first+1) pos = last-first+1;
+            if(pos > 10) pos = 10;
+        }
+
+        if(IsKeyReleased(KEY_DOWN)) {
+            pos++;
+            if(pos > last-first+1) pos = 0;
+            if(pos > 10) pos = 0;
+        }
         if(last-first+1 == 1) pos = 0;
-        if(pos > last-first+1) pos = 0;
+        
+        if(pos < 0) pos = last-first+1;
+        
         input.update();
 
         old_query = input_query;
         input_query = input.message;
         if(old_query.compare(input_query) != 0) {
-            int pos = 0;
-        }
-        for(int i = 0; i < input_query.length(); i++) {
-            if(input_query[i] == ' ') input_query.erase(input_query.begin() + i);
-        }
-        for(int i = 0; i < old_query.length(); i++) {
-            if(old_query[i] == ' ') old_query.erase(old_query.begin() + i);
+            pos = 0;
         }
 
         first = search.firstIndexOf(terms, input_query);
@@ -131,10 +136,12 @@ int main(void)
             std::string first_index = "First index of query = " + std::to_string(first);
             std::string last_index = "last index of query = " + std::to_string(last);
 
-            for(int i = 0; i < last-first+1; i++) {
-                if(i > 10) break;
-                if(pos == i) DrawRectangle(0, 50+i*20-2, screenWidth, 24, BLACK);
-                DrawText(terms[first+i].toString().c_str(), 10, 50+i*20, 20, WHITE);
+            if(first != -1 && last != -1){
+                    for(int i = 0; i < last-first+1; i++) {
+                    if(i > 10) break;
+                    if(pos == i) DrawRectangle(0, 50+i*20-2, screenWidth, 24, BLACK);
+                    DrawText(terms[first+i].toString().c_str(), 10, 50+i*20, 20, WHITE);
+                }
             }
 
 

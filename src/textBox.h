@@ -3,7 +3,7 @@
 
 #include "raylib.h"
 
-#define MAX_INPUT_CHARS     30
+#define MAX_INPUT_CHARS     40
 
 struct textBox{
     char message[MAX_INPUT_CHARS + 1];

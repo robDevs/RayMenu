@@ -16,8 +16,7 @@ int Term::byReverseWeightOrder(Term that) {
 
 //compare the two terms in lexicographic order but using only the first r chars of each. 
 int Term::byPrefixOrder(Term that, int r) {
-    if(that.query.length() < r) return -1;
-    if(query.length() < r) return 1;
+
 
     return query.substr(0, r).compare(that.query.substr(0, r));
 }
