@@ -96,7 +96,8 @@ int main(void)
     {
         //update section 
         if(IsKeyReleased(KEY_ENTER)) {
-            command = terms[first+pos].toString();
+            if(first == -1 || last == -1) command = input_query;
+            else command = terms[first+pos].toString();
             done = true;
         }
         if(IsKeyReleased(KEY_UP)){
