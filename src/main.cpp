@@ -40,15 +40,28 @@ bool stringComp(std::string i, std::string j) {
     return string1.compare(string2) > 0;
     }
 
-int main(void)
+int main(int argc, char* argv[])
 {
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    if(argc < 5) {
+        std::cout << "Usage: ./RayMenu x y w h" << std::endl;
+        std::cout << "x = x position \ny = y position\nw = width\nh = height" << std::endl;
+        return -1;
+    }
+
+    std::string x_pos = argv[1];
+    std::string y_pos = argv[2];
+    std::string width = argv[3];
+    std::string height = argv[4];
+    
+    const int screenWidth = std::stoi(width);
+    const int screenHeight = std::stoi(height);
 
     SetConfigFlags(FLAG_WINDOW_UNDECORATED | FLAG_WINDOW_TRANSPARENT);
     InitWindow(screenWidth, screenHeight, "RayMenu");
+
+    SetWindowPosition(std::stoi(x_pos), std::stoi(y_pos));
 
     std::vector<std::string> progs;
 
