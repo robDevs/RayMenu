@@ -41,22 +41,8 @@ void textBox::update() {
     else framesCounter = 0;
 }
 
-void textBox::draw() {
-    //DrawRectangleRec(rect, LIGHTGRAY);
-
-    //if (mouseOnText) DrawRectangleLines(rect.x, rect.y, rect.width, rect.height, RED);
-    //else DrawRectangleLines(rect.x, rect.y, rect.width, rect.height, DARKGRAY);
-
-    DrawText(message, rect.x + 5, rect.y + 8, 20, WHITE);
-
-    if (mouseOnText)
-    {
-        if (letterCount < MAX_INPUT_CHARS)
-        {
-            // Draw blinking underscore char
-            //if (((framesCounter/20)%2) == 0) DrawText("_", rect.x + 8 + MeasureText(message, 20), rect.y + 12, 20, VIOLET);
-        }
-    }
+void textBox::draw(Color color) {
+    DrawText(message, rect.x + 5, rect.y + 8, 20, color);
 }
 
 void textBox::setMessage(const char newMessage[MAX_INPUT_CHARS + 1]) {

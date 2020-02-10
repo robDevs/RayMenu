@@ -39,13 +39,13 @@ bool stringComp(std::string i, std::string j) {
     for(int i = 0; i < string2.length(); i++) {
         string2[i] = tolower(string2[i]);
     }
-    return string1.compare(string2) > 0;
+        return string1.compare(string2) > 0;
     }
 
 int main(int argc, char* argv[])
 {
-    Config config;
-    read_config("/home/rob/.config/raymenu.conf", &config);
+    //std::system("i3-msg workspace 1");
+    Config config = read_config("/home/rob/.config/raymenu.conf");
     // Initialization
     //-------------------------------------------------------------------------------------
 
@@ -142,8 +142,8 @@ int main(int argc, char* argv[])
         //draw section. 
         BeginDrawing();
 
-            ClearBackground((Color) {73, 87, 92, 100});
-            input.draw();
+            ClearBackground((Color) {(unsigned char) config.bg_r, (unsigned char) config.bg_g, (unsigned char) config.bg_b, (unsigned char) config.bg_a});
+            input.draw((Color) {(unsigned char) config.text_r, (unsigned char) config.text_g, (unsigned char) config.text_b, (unsigned char) config.text_a});
 
             std::string first_index = "First index of query = " + std::to_string(first);
             std::string last_index = "last index of query = " + std::to_string(last);
@@ -151,8 +151,8 @@ int main(int argc, char* argv[])
             if(first != -1 && last != -1){
                     for(int i = 0; i < last-first+1; i++) {
                     if(i > 10) break;
-                    if(pos == i) DrawRectangle(0, 50+i*20-2, screenWidth, 24, BLACK);
-                    DrawText(terms[first+i].toString().c_str(), 10, 50+i*20, 20, WHITE);
+                    if(pos == i) DrawRectangle(0, 50+i*20-2, screenWidth, 24, (Color) {(unsigned char) config.bar_r, (unsigned char) config.bar_g, (unsigned char) config.bar_b, (unsigned char) config.bar_a});
+                    DrawText(terms[first+i].toString().c_str(), 10, 50+i*20, 20, (Color) {(unsigned char) config.text_r, (unsigned char) config.text_g, (unsigned char) config.text_b, (unsigned char) config.text_a});
                 }
             }
 
@@ -166,9 +166,13 @@ int main(int argc, char* argv[])
     //Close the window. 
     //free things here. 
     CloseWindow(); 
-    if(done) std::system("i3-msg workspace 3;");
-    //if(done) std::system("i3-msg workspace 3; layout tabbed; exec && google-chrome-stable -s");
-    if(done) std::system(command.c_str());
+    //if(done) std::system("i3-msg workspace 1;");
+    //if(done) std::system("i3-msg workspace 1;");
+    if(config.i3) {
+        std::string final_command = "i3-msg exec " + command;
+        if(done) std::system(command.c_str());
+    }
+    else if(done) std::system(command.c_str());
 
     return 0;
 }

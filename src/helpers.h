@@ -6,6 +6,6 @@
 #include "config.h"
 
 extern bool file_exists(const std::string name);
-extern void read_config(const std::string path, Config *config);
+extern Config read_config(const std::string path);
 
 #endif 

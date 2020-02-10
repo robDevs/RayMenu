@@ -14,7 +14,7 @@ struct textBox{
     int framesCounter;
     textBox(int x, int y, int w, int h, int max);
     void update();
-    void draw();
+    void draw(Color color);
     void setMessage(const char newMessage[MAX_INPUT_CHARS + 1]);
 };
 
