@@ -16,14 +16,28 @@ int Term::byReverseWeightOrder(Term that) {
 
 //compare the two terms in lexicographic order but using only the first r chars of each. 
 int Term::byPrefixOrder(Term that, int r) {
-
-
-    return query.substr(0, r).compare(that.query.substr(0, r));
+    std::string string1 = query;
+    std::string string2 = that.query;
+    for(int i = 0; i < string1.length(); i++) {
+        string1[i] = tolower(string1[i]);
+    }
+    for(int i = 0; i < string2.length(); i++) {
+        string2[i] = tolower(string2[i]);
+    }
+    return string1.substr(0, r).compare(string2.substr(0, r));
 }
 
 //compares the two terms in lexicographic order by query
 int Term::compareTo(Term that) {
-    return query.compare(that.query);
+    std::string string1 = query;
+    std::string string2 = that.query;
+    for(int i = 0; i < string1.length(); i++) {
+        string1[i] = tolower(string1[i]);
+    }
+    for(int i = 0; i < string2.length(); i++) {
+        string2[i] = tolower(string2[i]);
+    }
+    return string1.compare(string2);
 }
 
 //returns string representaiton of term. 
