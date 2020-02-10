@@ -2,6 +2,8 @@
 #include "term.h"
 #include "binarySearchDeluxe.h"
 #include "textBox.h"
+#include "helpers.h"
+#include "config.h"
 #include <cstdlib>
 #include <string>
 #include <vector>
@@ -42,26 +44,21 @@ bool stringComp(std::string i, std::string j) {
 
 int main(int argc, char* argv[])
 {
+    Config config;
+    read_config("/home/rob/.config/raymenu.conf", &config);
     // Initialization
-    //--------------------------------------------------------------------------------------
-    if(argc < 5) {
-        std::cout << "Usage: ./RayMenu x y w h" << std::endl;
-        std::cout << "x = x position \ny = y position\nw = width\nh = height" << std::endl;
-        return -1;
-    }
+    //-------------------------------------------------------------------------------------
 
-    std::string x_pos = argv[1];
-    std::string y_pos = argv[2];
-    std::string width = argv[3];
-    std::string height = argv[4];
     
-    const int screenWidth = std::stoi(width);
-    const int screenHeight = std::stoi(height);
-
+    const int screenWidth = config.win_w;
+    const int screenHeight = config.win_h;
+    
     SetConfigFlags(FLAG_WINDOW_UNDECORATED | FLAG_WINDOW_TRANSPARENT);
     InitWindow(screenWidth, screenHeight, "RayMenu");
 
-    SetWindowPosition(std::stoi(x_pos), std::stoi(y_pos));
+    //while(!IsWindowReady()) {}
+    //SetWindowPosition(config.win_x, config.win_y);
+    SetWindowPosition(config.win_x, config.win_y);
 
     std::vector<std::string> progs;
 
@@ -110,7 +107,7 @@ int main(int argc, char* argv[])
         //update section 
         if(IsKeyReleased(KEY_ENTER)) {
             if(first == -1 || last == -1) command = input_query;
-            else command = terms[first+pos].toString();
+            else command = terms[first+pos].toString() + " &";
             done = true;
         }
         if(IsKeyReleased(KEY_UP)){
@@ -168,7 +165,8 @@ int main(int argc, char* argv[])
     //Close the window. 
     //free things here. 
     CloseWindow(); 
-
+    if(done) std::system("i3-msg workspace 3;");
+    //if(done) std::system("i3-msg workspace 3; layout tabbed; exec && google-chrome-stable -s");
     if(done) std::system(command.c_str());
 
     return 0;
