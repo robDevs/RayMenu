@@ -58,7 +58,8 @@ int main(int argc, char* argv[])
 
     //while(!IsWindowReady()) {}
     //SetWindowPosition(config.win_x, config.win_y);
-    SetWindowPosition(config.win_x, config.win_y);
+    if(config.win_x != -1 && config.win_y != -1) 
+        SetWindowPosition(config.win_x, config.win_y);
 
     std::vector<std::string> progs;
 
