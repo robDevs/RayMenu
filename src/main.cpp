@@ -45,10 +45,28 @@ bool stringComp(std::string i, std::string j) {
 int main(int argc, char* argv[])
 {
     //std::system("i3-msg workspace 1");
-    Config config = read_config("/home/rob/.config/raymenu.conf");
     // Initialization
     //-------------------------------------------------------------------------------------
 
+    if(argc < 2) {
+        std::cout << "Usage: ./RayMenu /path/to/config/file" << std::endl;
+        return -1;
+    }
+    std::cout << "---------------------Config Info-------------------------------" << std::endl;
+
+    std::string config_path = argv[1];
+
+    std::cout << "config path: " << config_path << std:: endl;
+
+    if(!file_exists(config_path)) 
+        std::cout << "unable to open config file" << std::endl;
+    else 
+        std::cout << "success in opening config file" << std::endl;
+
+    Config config = read_config(config_path);
+
+
+    std::cout << "------------------End Config Info-------------------------------" << std::endl;
     
     const int screenWidth = config.win_w;
     const int screenHeight = config.win_h;
