@@ -114,6 +114,7 @@ int main(int argc, char* argv[])
     std::string old_query;
     
     bool done = false;
+    bool exec_term = false;
 
     int first = 0; 
     int last = 0;
@@ -128,6 +129,9 @@ int main(int argc, char* argv[])
             if(first == -1 || last == -1) command = input_query;
             else command = terms[first+pos].toString() + " &";
             done = true;
+            if(IsKeyDown(KEY_LEFT_SHIFT) || IsKeyDown(KEY_RIGHT_SHIFT)) {
+                exec_term = true;
+            }
         }
         if(IsKeyReleased(KEY_UP)){
             pos--;
@@ -186,6 +190,9 @@ int main(int argc, char* argv[])
     CloseWindow(); 
     //if(done) std::system("i3-msg workspace 1;");
     //if(done) std::system("i3-msg workspace 1;");
+    if(exec_term) {
+        command = "terminal -e " + command;
+    }
     if(config.i3) {
         std::string final_command = "i3-msg exec " + command;
         if(done) std::system(command.c_str());
