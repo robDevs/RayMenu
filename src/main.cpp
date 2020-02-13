@@ -194,8 +194,10 @@ int main(int argc, char* argv[])
         command = "terminal -e " + command;
     }
     if(config.i3) {
-        std::string final_command = "i3-msg 'exec " + command + "'";
-        if(done) std::system(command.c_str());
+        std::cout << "i3 mode" << std::endl;
+        std::system("./getWorkSpace > temp.txt");
+        std::string final_command = "i3-msg 'workspace 1; exec " + command + ";'";
+        if(done) std::system(final_command.c_str());
     }
     else if(done) std::system(command.c_str());
 
