@@ -194,7 +194,7 @@ int main(int argc, char* argv[])
         command = "terminal -e " + command;
     }
     if(config.i3) {
-        std::string final_command = "i3-msg exec " + command;
+        std::string final_command = "i3-msg 'exec " + command + "'";
         if(done) std::system(command.c_str());
     }
     else if(done) std::system(command.c_str());
